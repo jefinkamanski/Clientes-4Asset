@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Cliente } from '../models/cliente';
 import { ClientesService } from '../services/clientes.service';
 
@@ -13,13 +14,13 @@ export class ClientesComponent implements OnInit {
   cliente = {} as Cliente;
   clientes: Cliente[] = [];
 
-  
+
   constructor(private clienteService: ClientesService) { }
 
-  
+
   ngOnInit() {
     this.getClientes();
-    
+
   }
 
   getClientes() {
@@ -27,7 +28,7 @@ export class ClientesComponent implements OnInit {
       this.clientes = clientes;
       console.log(this.clientes)
     });
- 
+
   }
 
 }

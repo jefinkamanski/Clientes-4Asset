@@ -1,6 +1,6 @@
 
 export const environment = {
   production: false,
-  apiURL:'https://forassetapi.herokuapp.com/people',
+  apiURL:'http://my-json-server.typicode.com/jefinkamanski/Base-de-Dados',
 };
 

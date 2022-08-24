@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CadastroClienteComponent } from './cadastro-cliente/cadastro-cliente.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClientesComponent
+    ClientesComponent,
+    CadastroClienteComponent
   ],
   imports: [
     BrowserModule,

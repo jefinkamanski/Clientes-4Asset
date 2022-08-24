@@ -1,0 +1,47 @@
+<div class="uk-margin uk-margin-auto@m uk-width-1-2@s  uk-card uk-card-body ">
+    <form class="uk-form-stacked" (ngSubmit)="f.form.valid && CriaCliente(f)" #f="ngForm" novalidate>
+        <fieldset class="uk-fieldset">
+
+            <legend class="uk-legend">Cadastro de Clientes</legend>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Nome</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="text" [(ngModel)]="cliente.name" id="name" name="name" #name="ngModel" required placeholder="Nome do cliente..."
+                    [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Nascimento</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="date" [(ngModel)]="cliente.birth_at" id="birth_at" name="birth_at" #birth="ngModel" required placeholder="09/09/1997"
+                    [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text">Email</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="email" [(ngModel)]="cliente.email" id="email" name="email" #email="ngModel" required placeholder="cliente@gmail.com"
+                    [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                </div>
+            </div>
+
+            <div class="uk-margin">
+                <label class="uk-form-label" for="form-stacked-text" >Telefone</label>
+                <div class="uk-form-controls">
+                    <input class="uk-input" type="tel" [(ngModel)]="cliente.phone" id="phone" name="phone" #telefone="ngModel" required placeholder="(46) 99129-5590"
+                    [ngClass]="{ 'is-invalid': f.submitted && name.invalid }">
+                </div>
+            </div>
+
+        </fieldset>
+        <div class="uk-margin">
+            <button type="submit" class="uk-button uk-width-1-1 uk-button-primary">Salvar Cadastro</button>
+        </div>
+        <div class="uk-margin">
+            <button class="uk-button uk-width-1-1 uk-button-default" routerLink="..">Voltar</button>
+        </div>
+    </form>
+</div>

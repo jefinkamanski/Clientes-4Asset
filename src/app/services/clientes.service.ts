@@ -16,12 +16,49 @@ export class ClientesService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
+  // Lista todos os clientes
   getClientes(): Observable<Cliente[]> {
-    return this.httpClient.get<Cliente[]>(environment.apiURL)
+    return this.httpClient.get<Cliente[]>(environment.apiURL + '/clientes')
       .pipe(
         retry(2),
         catchError(this.handleError))
   }
+
+  // Busca por um cliente
+  getClienteById(id: number): Observable<Cliente> {
+    return this.httpClient.get<Cliente>(environment.apiURL + '/clientes' + id)
+      .pipe(
+        retry(2),
+        catchError(this.handleError)
+      )
+  }
+
+  // Salva um cliente
+  postCliente(cliente: Cliente): Observable<Cliente> {
+      return this.httpClient.post<Cliente>(environment.apiURL + '/clientes', JSON.stringify(cliente), this.httpOptions)
+        .pipe(
+          retry(2),
+          catchError(this.handleError)
+        )
+    }
+
+   // Atualiza um Cliente
+   putCliente(cliente: Cliente): Observable<Cliente> {
+    return this.httpClient.put<Cliente>(environment.apiURL + '/' + cliente.id, JSON.stringify(cliente), this.httpOptions)
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      )
+  }
+
+    // Deleta um Cliente
+    deleteCliente(cliente: Cliente) {
+      return this.httpClient.delete<Cliente>(environment.apiURL + '/' + cliente.id, this.httpOptions)
+        .pipe(
+          retry(1),
+          catchError(this.handleError)
+        )
+    }
 
   handleError(error: HttpErrorResponse) {
     let errorMessage = '';

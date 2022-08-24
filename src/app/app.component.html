@@ -1,1 +1,19 @@
-<app-clientes></app-clientes>
+<nav class="uk-navbar-container uk-margin" uk-navbar>
+    <div class="uk-navbar-left">
+  
+        <a class="uk-navbar-item uk-logo" href="#">
+          <img src="../assets/logo.png" alt="Logo">
+        </a>
+  
+        <ul class="uk-navbar-nav">
+            <li>
+                <a routerLink="/cliente">
+                    <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                    Clientes
+                </a>
+            </li>
+        </ul>
+    </div>
+  </nav>
+
+<router-outlet></router-outlet>
