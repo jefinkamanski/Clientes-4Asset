@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiURL:'https://forassetapi.herokuapp.com/people',
 };
