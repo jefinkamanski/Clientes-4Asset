@@ -1,1 +1,42 @@
-<p>clientes works!</p>
+<nav class="uk-navbar-container uk-margin" uk-navbar>
+    <div class="uk-navbar-left">
+  
+        <a class="uk-navbar-item uk-logo" href="#">
+          <img src="../assets/logo.png" alt="Logo">
+        </a>
+  
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="#">
+                    <span class="uk-icon uk-margin-small-right" uk-icon="icon: user"></span>
+                    Clientes
+                </a>
+            </li>
+        </ul>
+    </div>
+  </nav>
+  
+  <div class="uk-margin uk-card uk-card-default uk-card-body">
+    <table class="uk-table uk-table-striped">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>Email</th>
+              <th>Data de Nascimento</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let cliente of clientes">
+              <td>{{cliente.id}}</td>
+              <td>{{cliente.name}}</td>
+              <td>{{cliente.phone}}</td>
+              <td>{{cliente.email}}</td>
+              <td>{{cliente.birth_at}}</td>
+          </tr>
+      </tbody>
+  </table>
+  </div>
+  <!-- <router-outlet></router-outlet> -->
+  
