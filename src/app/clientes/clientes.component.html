@@ -1,27 +1,41 @@
-<div class="uk-margin uk-margin-auto@m uk-card uk-card-default uk-card-large uk-card-body">
-    <button class="uk-button uk-button-primary" routerLink="/cadastro"><span class="uk-margin-small-right"
-            uk-icon="plus"></span>Cadastrar Usuários</button>
-    <table class="uk-table uk-table-striped">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Telefone</th>
-                <th>Email</th>
-                <th>Data de Nascimento</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let cliente of clientes">
-                <td>{{cliente.id}}</td>
-                <td>{{cliente.name}}</td>
-                <td>{{cliente.phone}}</td>
-                <td>{{cliente.email}}</td>
-                <td>{{cliente.birth_at}}</td>
-                <td uk-icon="icon: pencil"></td>
-                <td uk-icon="icon: trash"></td>
-            </tr>
-        </tbody>
-    </table>
+<div class="uk-container">
+    <div class="uk-margin uk-card  uk-card-large uk-card-body ">
+        <button class="uk-button uk-button-primary" routerLink="/cadastro"><span class="uk-margin-small-right"
+                uk-icon="plus"></span>Cadastrar Usuários</button>
+
+     <div class="uk-margin" *ngIf="confirmacaoDelete">
+        <div class="uk-alert-success" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>Cliente Deletado com Sucesso</p>
+        </div>
+     </div>
+        <table class="uk-table uk-table-striped ">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Data de Nascimento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let cliente of clientes">
+                    <td>{{cliente.id}}</td>
+                    <td>{{cliente.name}}</td>
+                    <td>{{cliente.phone}}</td>
+                    <td>{{cliente.email}}</td>
+                    <td>{{cliente.birth_at}}</td>
+                    <td>
+                        <a href="#" class="uk-icon-link uk-margin-small-right" uk-icon="file-edit"
+                            [routerLink]="['/cadastro/', cliente.id, 'edit']"></a>
+                    </td>
+                    <td>
+                        <a class="uk-icon-link" uk-icon="trash"
+                        (click)="deleteCliente(cliente.id)"></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
-<!-- <router-outlet></router-outlet> -->

@@ -14,6 +14,7 @@ export class ClientesComponent implements OnInit {
   cliente = {} as Cliente;
   clientes: Cliente[] = [];
 
+  confirmacaoDelete = false;
 
   constructor(private clienteService: ClientesService) { }
 
@@ -28,7 +29,23 @@ export class ClientesComponent implements OnInit {
       this.clientes = clientes;
       console.log(this.clientes)
     });
-
   }
+
+  deleteCliente(id: any) {
+    this.clienteService.deleteCliente(id).subscribe(
+      res => {
+        this.confirmacaoDelete = true;
+        console.log('Cliente Deletado com Sucesso');
+        this.getClientes();
+        setTimeout(() => { this.confirmacaoDelete = false; }, 5000)
+      }
+    )
+  
+  }
+
+  // setCurrentCliente(cliente: any, index: any) {
+  //   this.currentCliente = cliente;
+  //   this.currentIndex = index;
+  // }
 
 }

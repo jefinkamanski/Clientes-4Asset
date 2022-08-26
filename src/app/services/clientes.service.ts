@@ -18,7 +18,7 @@ export class ClientesService {
 
   // Lista todos os clientes
   getClientes(): Observable<Cliente[]> {
-    return this.httpClient.get<Cliente[]>(environment.apiURL + '/clientes')
+    return this.httpClient.get<Cliente[]>(environment.apiURL)
       .pipe(
         retry(2),
         catchError(this.handleError))
@@ -26,7 +26,7 @@ export class ClientesService {
 
   // Busca por um cliente
   getClienteById(id: number): Observable<Cliente> {
-    return this.httpClient.get<Cliente>(environment.apiURL + '/clientes' + id)
+    return this.httpClient.get<Cliente>(environment.apiURL + '/' + id)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -35,7 +35,7 @@ export class ClientesService {
 
   // Salva um cliente
   postCliente(cliente: Cliente): Observable<Cliente> {
-      return this.httpClient.post<Cliente>(environment.apiURL + '/clientes', JSON.stringify(cliente), this.httpOptions)
+      return this.httpClient.post<Cliente>(environment.apiURL + '/', JSON.stringify(cliente), this.httpOptions)
         .pipe(
           retry(2),
           catchError(this.handleError)
@@ -43,7 +43,7 @@ export class ClientesService {
     }
 
    // Atualiza um Cliente
-   putCliente(cliente: Cliente): Observable<Cliente> {
+   putCliente(id: any, cliente: Cliente): Observable<Cliente> {
     return this.httpClient.put<Cliente>(environment.apiURL + '/' + cliente.id, JSON.stringify(cliente), this.httpOptions)
       .pipe(
         retry(1),
@@ -52,12 +52,12 @@ export class ClientesService {
   }
 
     // Deleta um Cliente
-    deleteCliente(cliente: Cliente) {
-      return this.httpClient.delete<Cliente>(environment.apiURL + '/' + cliente.id, this.httpOptions)
+    deleteCliente(id: any) {
+      return this.httpClient.delete<Cliente>(environment.apiURL + '/'  + id, this.httpOptions)
         .pipe(
           retry(1),
           catchError(this.handleError)
-        )
+          )
     }
 
   handleError(error: HttpErrorResponse) {
