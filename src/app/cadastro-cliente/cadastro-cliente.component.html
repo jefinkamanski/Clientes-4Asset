@@ -1,54 +1,79 @@
 <div class="uk-margin uk-margin-auto@m uk-width-1-2@s  uk-card uk-card-body ">
-    <form class="uk-form-stacked">
+    <form class="uk-form-stacked" [formGroup]="formCliente" (ngSubmit)="salvarCliente()" novalidate>
         <fieldset class="uk-fieldset">
- 
+
             <div *ngIf="!id_update; then cadastrar else atualizar"></div>
-            <ng-template #cadastrar><legend class="uk-legend">Cadastrar Cliente</legend></ng-template>
-            <ng-template #atualizar><legend class="uk-legend">Atualizar Cliente</legend></ng-template>
+            <ng-template #cadastrar>
+                <legend class="uk-legend">Cadastrar Cliente</legend>
+            </ng-template>
+            <ng-template #atualizar>
+                <legend class="uk-legend">Atualizar Cliente</legend>
+            </ng-template>
 
             <div class="uk-margin">
                 <label class="uk-form-label" for="form-stacked-text">Nome</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="text" [(ngModel)]="cliente.name" id="name" name="name" required
-                        placeholder="Nome do cliente...">
+                    <input class="uk-input" type="text" [ngClass]="{ 'input-invalid': submitted && f['name'].errors }"
+                        formControlName="name" id="name" name="name" required placeholder="Nome do cliente...">
+                    <div *ngIf="submitted && f['name'].errors" class="uk-alert-warning" uk-alert>
+                        <div *ngIf="f['name'].errors['required']">Nome Obrigatório!</div>
+                    </div>
                 </div>
             </div>
 
             <div class="uk-margin">
                 <label class="uk-form-label" for="form-stacked-text">Nascimento</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="date" [(ngModel)]="cliente.birth_at" id="birth_at" name="birth_at"
-                        required placeholder="09/09/1997">
+                    <input class="uk-input" [ngClass]="{ 'input-invalid': submitted && f['birth_at'].errors }"
+                        type="date" formControlName="birth_at" id="birth_at" name="birth_at" required
+                        placeholder="09/09/1997">
+                    <div *ngIf="submitted && f['birth_at'].errors" class="uk-alert-warning" uk-alert>
+                        <div *ngIf="f['birth_at'].errors['required']">Nascimento é Obrigatório!</div>
+                    </div>
                 </div>
             </div>
 
             <div class="uk-margin">
                 <label class="uk-form-label" for="form-stacked-text">Email</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="email" [(ngModel)]="cliente.email" id="email" name="email" required
-                        placeholder="cliente@gmail.com">
+                    <input class="uk-input" [ngClass]="{ 'input-invalid': submitted && f['email'].errors }" id="email"
+                        name="email" type="email" formControlName="email" required placeholder="cliente@gmail.com">
+                    <div *ngIf="submitted && f['email'].errors" class="uk-alert-warning" uk-alert>
+                        <div *ngIf="f['email'].errors['required']">Email é Obrigatório!</div>
+                        <div *ngIf="f['email'].errors['email']">Email é Obrigatório!</div>
+                    </div>
                 </div>
             </div>
+
 
             <div class="uk-margin">
                 <label class="uk-form-label" for="form-stacked-text">Telefone</label>
                 <div class="uk-form-controls">
-                    <input class="uk-input" type="tel" [(ngModel)]="cliente.phone" id="phone" name="phone" required
+                    <input class="uk-input" [ngClass]="{ 'input-invalid': submitted && f['phone'].errors }"
+                        formControlName="phone" id="phone" name="phone" type="tel" required
                         placeholder="(46) 99129-5590">
+                    <div *ngIf="submitted && f['phone'].errors" class="uk-alert-warning" uk-alert>
+                        <div *ngIf="f['phone'].errors['required']">Telefone é Obrigatório!</div>
+                    </div>
                 </div>
             </div>
 
         </fieldset>
+        <div class="uk-margin">
+            <button class="uk-button uk-width-1-1 uk-button-primary">
+                <div *ngIf="!id_update; else atualiza">Salvar Cadastro</div>
+            </button>
+            <ng-template #atualiza>Atualizar Cliente</ng-template>
+        </div>
     </form>
-    <div *ngIf="submitted">
+    <div *ngIf="submitted && formCliente.valid">
         <div class="uk-alert-success" uk-alert>
             <a class="uk-alert-close" uk-close></a>
-            <p>Cliente Cadastrado com Sucesso</p>
+            <p *ngIf="!id_update; else atualizado">Cliente cadastrado com Sucesso</p>
+            <ng-template #atualizado>
+                <p>Cliente atualizado com Sucesso</p>
+            </ng-template>
         </div>
-    </div>
-    <div class="uk-margin">
-        <button (click)="savarCliente()" class="uk-button uk-width-1-1 uk-button-primary"><div *ngIf="!id_update; else atualiza">Salvar Cadastro</div></button>
-        <ng-template #atualiza>Atualizar Cliente</ng-template>
     </div>
     <div class="uk-margin">
         <button class="uk-button uk-width-1-1 uk-button-default" (click)="voltar()">Voltar</button>

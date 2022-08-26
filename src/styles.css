@@ -1,1 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+.input-invalid{
+    border: 1px solid !important;
+    border-color: #fcb35a !important;  
+}

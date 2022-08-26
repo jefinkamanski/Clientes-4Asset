@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { timeout } from 'rxjs';
+import { first } from 'rxjs';
 import { Cliente } from '../models/cliente';
 import { ClientesService } from '../services/clientes.service';
 
@@ -14,7 +14,7 @@ import { ClientesService } from '../services/clientes.service';
 
 export class CadastroClienteComponent implements OnInit {
 
-
+  formCliente: FormGroup;
 
   cliente: Cliente = {
     id: 0,
@@ -27,90 +27,85 @@ export class CadastroClienteComponent implements OnInit {
   };
 
   submitted = false;
-  id_update= this.route.snapshot.paramMap.get('id');
+
+  id_update = this.route.snapshot.paramMap.get('id');
+
 
   constructor(
     private clienteService: ClientesService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
+    private fb: FormBuilder
   ) {
-  }
-  ngOnInit(): void {
-    if (this.route.snapshot.paramMap.get('id')) { 
-      this.getClienteId(this.id_update);
-    }
 
+    this.formCliente = this.fb.group({
+      id: ([0, Validators.required]),
+      name: (['', Validators.required]),
+      birth_at: ([null, Validators.required]),
+      email: (['', [Validators.required, Validators.email]]),
+      phone: (['', Validators.required])
+    })
+
+  }
+
+  ngOnInit(): void {
+
+    if (this.id_update) {
+      this.getClienteId(this.id_update);
+    };
+
+  }
+
+  get f() { return this.formCliente.controls; }
+
+  getClienteId(id: any) {
+    this.clienteService.getClienteById(id).pipe(first())
+      .subscribe(
+        x => this.formCliente.patchValue(x));
   }
 
   CriaCliente(): void {
-    const data = {
-      id: 0,
-      name: this.cliente.name,
-      birth_at: this.cliente.birth_at,
-      email: this.cliente.email,
-      phone: this.cliente.phone,
-      created_at: new Date(),
-      updated_at: new Date()
-    };
+    this.submitted = true;
 
-    this.clienteService.postCliente(data)
+    if (this.formCliente.invalid) {
+      return;
+    }
+
+    this.clienteService.postCliente(this.formCliente.value)
       .subscribe({
         next: (res) => {
           console.log("Cliente cadastrado com sucesso!");
-          this.submitted = true;
-          setTimeout(() => { this.novoCliente(); }, 3000)
-          this.router.navigateByUrl('clientes');
+          setTimeout(() => { this.router.navigateByUrl('/clientes') }, 3000);
         },
         error: (e) => console.error(e)
       });
   }
 
-  novoCliente() {
-    this.submitted = false;
-    this.cliente = {
-      id: 0,
-      name: '',
-      birth_at: new Date,
-      email: '',
-      phone: 0,
-      created_at: new Date,
-      updated_at: new Date
-    } as Cliente
-  }
-
-  savarCliente() {
-    if(!this.id_update){
+  salvarCliente() {
+    if (!this.id_update) {
       this.CriaCliente();
-    }else{
+    } else {
       this.putClienteId();
     }
   }
 
-  getClienteId(id: any) {
-    this.clienteService.getClienteById(id)
-    .subscribe(
-      cliente => { 
-        this.cliente = cliente;
-        console.log(cliente);
-      },
-      error => {
-        console.log(error);
-  });
-  }
+  putClienteId() {
+    this.submitted = true;
+    if (this.formCliente.invalid) {
+      return;
+    }
 
-  putClienteId(){
-    this.clienteService.putCliente(this.cliente.id, this.cliente).subscribe(res => {
+    this.clienteService.putCliente(this.cliente.id, this.formCliente.value).subscribe(res => {
       console.log('Cliente Atualizado com sucesso!');
-      this.submitted = true;
-      setTimeout(() => { this.novoCliente(); }, 3000);
-      this.router.navigateByUrl('/clientes');
+      setTimeout(() => { this.router.navigateByUrl('/clientes') }, 3000);
+
     })
   }
 
   voltar() {
     this.router.navigate(['/clientes']);
-}
+  }
 
 }
 
